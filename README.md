@@ -46,12 +46,12 @@
   * [ 13. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
 * [Example ISR_16_Timers_Array_Complex](#example-isr_16_timers_array_complex)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
-  * [1. ISR_Timer_Complex on ESP32_S2_DEV](#1-isr_timer_complex-on-esp32_s2_dev)
-  * [2. TimerInterruptTest on ESP32_S2_DEV](#2-timerinterrupttest-on-esp32_s2_dev)
-  * [3. Change_Interval on ESP32_S2_DEV](#3-change_interval-on-esp32_s2_dev)
-  * [4. Argument_None on ESP32_S2_DEV](#4-argument_none-on-esp32_s2_dev)
-  * [5. ISR_16_Timers_Array_Complex on ESP32_S2_DEV](#5-isr_16_timers_array_complex-on-esp32_s2_dev)
-  * [6. ISR_16_Timers_Array on ESP32_S2_DEV](#6-isr_16_timers_array-on-esp32_s2_dev)
+  * [1. ISR_Timer_Complex on ESP32S2_DEV](#1-isr_timer_complex-on-esp32s2_dev)
+  * [2. TimerInterruptTest on ESP32C3_DEV](#2-timerinterrupttest-on-esp32c3_dev)
+  * [3. Change_Interval on ESP32_DEV](#3-change_interval-on-esp32_dev)
+  * [4. Argument_None on ESP32S2_DEV](#4-argument_none-on-esp32s2_dev)
+  * [5. ISR_16_Timers_Array_Complex on ESP32C3_DEV](#5-isr_16_timers_array_complex-on-esp32c3_dev)
+  * [6. ISR_16_Timers_Array on ESP32S2_DEV](#6-isr_16_timers_array-on-esp32s2_dev)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -70,9 +70,7 @@
 
 ## Features
 
-This library enables you to use Interrupt from Hardware Timers on an ESP32-S2-based board.
-
-The ESP32-S2 timer Interrupt control is different from that of ESP32, at least with the ESP32-S2 core v1.0.6. While the examples of current [ESP32TimerInterrupt library](https://github.com/khoih-prog/ESP32TimerInterrupt) can be compiled OK, they can't run yet. That's why this new [ESP32_New_TimerInterrupt library](https://github.com/khoih-prog/ESP32_New_TimerInterrupt) has been created.
+This library enables you to use Interrupt from Hardware Timers on an ESP32, ESP32_S2/C3-based board.
 
 ---
 
@@ -114,8 +112,8 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ### Currently supported Boards
 
 1. ESP32 boards, such as ESP32_DEV, etc.
-2. ESP32_S2-based boards, such as ESP32S2_DEV, ESP32_S2 Saola, etc.
-3. ESP32_C3-based boards, such as ESP32C3_DEV, etc.
+2. ESP32S2-based boards, such as ESP32S2_DEV, ESP32_S2 Saola, etc.
+3. ESP32C3-based boards, such as ESP32C3_DEV, etc.
 
 ---
 
@@ -133,7 +131,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Releases v1.0.0
 
-1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
 
 
 ---
@@ -142,7 +140,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP32 Core v2.0.0-rc1+`](https://github.com/espressif/arduino-esp32) for ESP32, ESP32_S2/C3-based boards.
+2. [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1) for ESP32, ESP32_S2/C3-based boards.
 ---
 ---
 
@@ -623,7 +621,7 @@ void loop()
 
 ### Debug Terminal Output Samples
 
-### 1. ISR_Timer_Complex on ESP32_S2_DEV
+### 1. ISR_Timer_Complex on ESP32S2_DEV
 
 The following is the sample terminal output when running example [ISR_Timer_Complex](examples/ISR_Timer_Complex) to demonstrate the accuracy of ISR Hardware Timer, **especially when system is very busy**.  The ISR timer is **programmed for 2s, is activated exactly after 2.000s !!!**
 
@@ -767,7 +765,7 @@ Changing Interval, Timer0 = 2000,  Timer1 = 5000
 
 ---
 
-### 4. Argument_None on ESP32_S2_DEV
+### 4. Argument_None on ESP32S2_DEV
 
 The following is the sample terminal output when running example [Argument_None](examples/Argument_None)
 
@@ -969,7 +967,7 @@ Timer : 15, programmed : 80000, actual : 80008
 
 ---
 
-### 6. ISR_16_Timers_Array on ESP32_S2_DEV
+### 6. ISR_16_Timers_Array on ESP32S2_DEV
 
 The following is the sample terminal output when running example [ISR_16_Timers_Array](examples/ISR_16_Timers_Array) on **ESP32S2_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
 
@@ -1078,7 +1076,9 @@ Sometimes, the library will only work if you update the board core to the latest
 
 ### Releases v1.0.0
 
-1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
+
+
 ---
 ---
 
@@ -1096,7 +1096,7 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
 
 ## DONE
 
-1. Basic hardware timers for ESP32, ESP32-S2 and ESP32_C3 for ESP32 core v2.0.0-rc1+.
+1. Basic hardware timers for ESP32, ESP32-S2 and ESP32_C3 for [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
 2. More hardware-initiated software-enabled timers
 3. Longer time interval
 4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
