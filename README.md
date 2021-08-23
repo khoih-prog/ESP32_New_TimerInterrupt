@@ -140,7 +140,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP32 core v2.0.0-rc1+`](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1) for ESP32, ESP32_S2/C3-based boards.
+2. [`ESP32 core v2.0.0-rc2+`](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc2) for ESP32, ESP32_S2/C3-based boards.
 ---
 ---
 
