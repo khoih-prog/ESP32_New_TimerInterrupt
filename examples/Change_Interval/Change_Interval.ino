@@ -19,19 +19,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.0.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
 *****************************************************************************************************************************/
 
 /*
@@ -50,10 +37,7 @@
   #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
 #endif
 
-// These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
-// _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
-// Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
+// These define's must be placed at the beginning before #include "ESP32_New_TimerInterrupt.h"
 #define _TIMERINTERRUPT_LOGLEVEL_     1
 
 #include "ESP32_New_TimerInterrupt.h"
@@ -62,21 +46,22 @@
   #define LED_BUILTIN       2         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
 #endif
 
-#define PIN_D1              1         // Pin D1 mapped to pin GPIO1 of ESP32
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
+#define PIN_D2              2         // Pin D2 mapped to pin GPIO2/ADC12/TOUCH2/LED_BUILTIN of ESP32
+#define PIN_D3              3         // Pin D3 mapped to pin GPIO3/RX0 of ESP32
 
 volatile uint32_t Timer0Count = 0;
 volatile uint32_t Timer1Count = 0;
 
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler0(void * timerNo)
 { 
   static bool toggle0 = false;
 
   // Flag for checking to be sure ISR is working as Serial.print is not OK here in ISR
   Timer0Count++;
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer0: millis() = "); Serial.println(millis());
-#endif
 
   //timer interrupt toggles pin LED_BUILTIN
   digitalWrite(LED_BUILTIN, toggle0);
@@ -85,6 +70,9 @@ bool IRAM_ATTR TimerHandler0(void * timerNo)
   return true;
 }
 
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler1(void * timerNo)
 {  
   static bool toggle1 = false;
@@ -92,12 +80,8 @@ bool IRAM_ATTR TimerHandler1(void * timerNo)
   // Flag for checking to be sure ISR is working as Serial.print is not OK here in ISR
   Timer1Count++;
 
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer1: millis() = "); Serial.println(millis());
-#endif
-
-  //timer interrupt toggles PIN_D1
-  digitalWrite(PIN_D1, toggle1);
+  //timer interrupt toggles PIN_D3
+  digitalWrite(PIN_D3, toggle1);
   toggle1 = !toggle1;
 
   return true;
@@ -121,7 +105,7 @@ ESP32Timer ITimer1(1);
 void setup()
 {
   pinMode(LED_BUILTIN,  OUTPUT);
-  pinMode(PIN_D1,       OUTPUT);
+  pinMode(PIN_D3,       OUTPUT);
   
   Serial.begin(115200);
   while (!Serial);

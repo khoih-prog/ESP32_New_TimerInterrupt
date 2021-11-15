@@ -19,19 +19,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.0.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -61,15 +48,15 @@
 
 #include "ESP32_New_TimerInterrupt.h"
 
-#define PIN_D1           1        // Pin D1 mapped to pin GPIO1/ADC1_0 of ESP32-S2
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
+#define PIN_D2              2         // Pin D2 mapped to pin GPIO2/ADC12/TOUCH2/LED_BUILTIN of ESP32
+#define PIN_D4              4         // Pin D4 mapped to pin GPIO4/ADC10/TOUCH0 of ESP32
 
-unsigned int SWPin = PIN_D1;
+unsigned int SWPin = PIN_D4;
 
 #define TIMER1_INTERVAL_MS        20
 #define DEBOUNCING_INTERVAL_MS    100
 #define LONG_PRESS_INTERVAL_MS    5000
-
-#define LOCAL_DEBUG               2
 
 // Init ESP32 timer 1
 ESP32Timer ITimer1(1);
@@ -77,17 +64,31 @@ ESP32Timer ITimer1(1);
 volatile bool SWPressed     = false;
 volatile bool SWLongPressed = false;
 
+volatile uint64_t lastSWPressedTime     = 0;
+volatile uint64_t lastSWLongPressedTime = 0;
+
+volatile bool lastSWPressedNoted     = true;
+volatile bool lastSWLongPressedNoted = true;
+
+void IRAM_ATTR lastSWPressedMS()
+{
+  lastSWPressedTime   = millis();
+  lastSWPressedNoted  = false;
+}
+
+void IRAM_ATTR lastSWLongPressedMS()
+{
+  lastSWLongPressedTime   = millis();
+  lastSWLongPressedNoted  = false;
+}
+
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler1(void * timerNo)
 { 
   static unsigned int debounceCountSWPressed  = 0;
   static unsigned int debounceCountSWReleased = 0;
-
-#if (LOCAL_DEBUG > 1)
-  static unsigned long SWPressedTime;
-  static unsigned long SWReleasedTime;
-
-  unsigned long currentMillis = millis();
-#endif
 
   if ( (!digitalRead(SWPin)) )
   {
@@ -99,16 +100,11 @@ bool IRAM_ATTR TimerHandler1(void * timerNo)
       // Call and flag SWPressed
       if (!SWPressed)
       {
-#if (LOCAL_DEBUG > 1)   
-        SWPressedTime = currentMillis;
-        
-        Serial.print("SW Press, from millis() = "); Serial.println(SWPressedTime);
-#endif
-
         SWPressed = true;
         // Do something for SWPressed here in ISR
         // But it's better to use outside software timer to do your job instead of inside ISR
         //Your_Response_To_Press();
+        lastSWPressedMS();
       }
 
       if (debounceCountSWPressed >= LONG_PRESS_INTERVAL_MS / TIMER1_INTERVAL_MS)
@@ -116,16 +112,11 @@ bool IRAM_ATTR TimerHandler1(void * timerNo)
         // Call and flag SWLongPressed
         if (!SWLongPressed)
         {
-#if (LOCAL_DEBUG > 1)
-          Serial.print("SW Long Pressed, total time ms = "); Serial.print(currentMillis);
-          Serial.print(" - "); Serial.print(SWPressedTime);
-          Serial.print(" = "); Serial.println(currentMillis - SWPressedTime);                                           
-#endif
-
           SWLongPressed = true;
           // Do something for SWLongPressed here in ISR
           // But it's better to use outside software timer to do your job instead of inside ISR
           //Your_Response_To_Long_Press();
+          lastSWLongPressedMS();
         }
       }
     }
@@ -135,13 +126,6 @@ bool IRAM_ATTR TimerHandler1(void * timerNo)
     // Start debouncing counting debounceCountSWReleased and clear debounceCountSWPressed
     if ( SWPressed && (++debounceCountSWReleased >= DEBOUNCING_INTERVAL_MS / TIMER1_INTERVAL_MS))
     {
-#if (LOCAL_DEBUG > 1)      
-      SWReleasedTime = currentMillis;
-
-      // Call and flag SWPressed
-      Serial.print("SW Released, from millis() = "); Serial.println(SWReleasedTime);
-#endif
-
       SWPressed     = false;
       SWLongPressed = false;
 
@@ -150,11 +134,6 @@ bool IRAM_ATTR TimerHandler1(void * timerNo)
       //Your_Response_To_Release();
 
       // Call and flag SWPressed
-#if (LOCAL_DEBUG > 1)
-      Serial.print("SW Pressed total time ms = ");
-      Serial.println(SWReleasedTime - SWPressedTime);
-#endif
-
       debounceCountSWPressed = 0;
     }
   }
@@ -190,5 +169,17 @@ void setup()
 
 void loop()
 {
+  if (!lastSWPressedNoted)
+  {
+    lastSWPressedNoted = true;
+    Serial.print(F("lastSWPressed @ millis() = ")); Serial.println(lastSWPressedTime);
+  }
 
+  if (!lastSWLongPressedNoted)
+  {
+    lastSWLongPressedNoted = true;
+    Serial.print(F("lastSWLongPressed @ millis() = ")); Serial.println(lastSWLongPressedTime);
+  }
+
+  delay(500);
 }

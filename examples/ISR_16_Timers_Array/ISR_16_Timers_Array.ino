@@ -19,19 +19,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.0.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -67,16 +54,14 @@
 #endif
 
 // These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
-// _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
-// Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-// Don't define TIMER_INTERRUPT_DEBUG > 2. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         2
 #define _TIMERINTERRUPT_LOGLEVEL_     0
 
 #include "ESP32_New_TimerInterrupt.h"
 #include "ESP32_New_ISR_Timer.h"
 
 #include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
+
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
 
 #ifndef LED_BUILTIN
   #define LED_BUILTIN       2
@@ -102,6 +87,9 @@ ESP32_ISR_Timer ISR_Timer;
 
 #define LED_TOGGLE_INTERVAL_MS        2000L
 
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler(void * timerNo)
 { 
   static bool toggle  = false;
@@ -140,239 +128,72 @@ uint32_t TimerInterval[NUMBER_ISR_TIMERS] =
 
 typedef void (*irqCallback)  ();
 
-#if (TIMER_INTERRUPT_DEBUG > 0)
-void printStatus(uint16_t index, unsigned long deltaMillis, unsigned long currentMillis)
-{
-  Serial.print(TimerInterval[index]/1000); Serial.print("s: Delta ms = "); Serial.print(deltaMillis);
-  Serial.print(", ms = "); Serial.println(currentMillis);
-}
-#endif
 
 // In ESP32, avoid doing something fancy in ISR, for example complex Serial.print with String() argument
 // The pure simple Serial.prints here are just for demonstration and testing. Must be eliminate in working environment
 // Or you can get this run-time error / crash
 void doingSomething0()
 {
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(0, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething1()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(1, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething2()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(2, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething3()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(3, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething4()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(4, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething5()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(5, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething6()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(6, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething7()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(7, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething8()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(8, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething9()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(9, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething10()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(10, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething11()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(11, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething12()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(12, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething13()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(13, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething14()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(14, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 void doingSomething15()
 {
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  static unsigned long previousMillis = startMillis;
-  
-  unsigned long currentMillis = millis();
-  unsigned long deltaMillis   = currentMillis - previousMillis;
-  
-  printStatus(15, deltaMillis, currentMillis);
-
-  previousMillis = currentMillis;
-#endif
 }
 
 irqCallback irqCallbackFunc[NUMBER_ISR_TIMERS] =

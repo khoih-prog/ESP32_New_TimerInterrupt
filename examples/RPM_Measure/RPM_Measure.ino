@@ -23,15 +23,6 @@
   Based on SimpleTimer - A timer library for Arduino.
   Author: mromani@ottotecnica.com
   Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.0.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -44,7 +35,7 @@
    If your data is multiple variables, such as an array and a count, usually interrupts need to be disabled
    or the entire sequence of your code which accesses the data.
 
-   RPM Measuring uses high frequency hardware timer 1Hz == 1ms) to measure the time from of one rotation, in ms
+   RPM Measuring uses high frequency hardware timer 1000Hz == 1ms) to measure the time from of one rotation, in ms
    then convert to RPM. One rotation is detected by reading the state of a magnetic REED SW or IR LED Sensor
    Asssuming LOW is active.
    For example: Max speed is 600RPM => 10 RPS => minimum 100ms a rotation. We'll use 80ms for debouncing
@@ -60,15 +51,16 @@
 
 // These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
-// Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
 #define _TIMERINTERRUPT_LOGLEVEL_     0
 
 #include "ESP32_New_TimerInterrupt.h"
 
-#define PIN_D1           1        // Pin D1 mapped to pin GPIO1/ADC1_0 of ESP32-S2
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
+#define PIN_D2              2         // Pin D2 mapped to pin GPIO2/ADC12/TOUCH2/LED_BUILTIN of ESP32
+#define PIN_D3              3         // Pin D3 mapped to pin GPIO3/RX0 of ESP32
+#define PIN_D4              4         // Pin D4 mapped to pin GPIO4/ADC10/TOUCH0 of ESP32
 
-unsigned int SWPin = PIN_D1;
+unsigned int SWPin = PIN_D4;
 
 #define TIMER0_INTERVAL_MS        1
 #define DEBOUNCING_INTERVAL_MS    80
@@ -79,24 +71,26 @@ unsigned int SWPin = PIN_D1;
 ESP32Timer ITimer0(0);
 
 volatile unsigned long rotationTime = 0;
-float RPM       = 0.00;
-float avgRPM    = 0.00;
+
+// Not using float => using RPM = 100 * real RPM
+uint32_t RPM       = 0;
+uint32_t avgRPM    = 0;
 
 volatile int debounceCounter;
 
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler0(void * timerNo)
 { 
   if ( !digitalRead(SWPin) && (debounceCounter >= DEBOUNCING_INTERVAL_MS / TIMER0_INTERVAL_MS ) )
   {
     //min time between pulses has passed
-    RPM = (float) ( 60000.0f / ( rotationTime * TIMER0_INTERVAL_MS ) );
+    // Using float calculation / vars in core v2.0.0 and core v2.0.1 will cause crash
+    // Not using float => using RPM = 100 * real RPM
+    RPM = ( 6000000 / ( rotationTime * TIMER0_INTERVAL_MS ) );
 
-    avgRPM = ( 2 * avgRPM + RPM) / 3,
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
-      Serial.print("RPM = "); Serial.print(avgRPM);
-      Serial.print(", rotationTime ms = "); Serial.println(rotationTime * TIMER0_INTERVAL_MS);
-#endif
+    avgRPM = ( 2 * avgRPM + RPM) / 3;
 
     rotationTime = 0;
     debounceCounter = 0;
@@ -106,15 +100,14 @@ bool IRAM_ATTR TimerHandler0(void * timerNo)
     debounceCounter++;
   }
 
-  if (rotationTime >= 5000)
+  //if (rotationTime >= 5000)
+  if (rotationTime >= 1000)
   {
     // If idle, set RPM to 0, don't increase rotationTime
     RPM = 0;
-    
-#if (TIMER_INTERRUPT_DEBUG > 0)   
-    Serial.print("RPM = "); Serial.print(RPM); Serial.print(", rotationTime = "); Serial.println(rotationTime);
-#endif
-    
+
+    avgRPM = ( avgRPM + 3 * RPM) / 4;
+     
     rotationTime = 0;
   }
   else
@@ -155,5 +148,10 @@ void setup()
 
 void loop()
 {
+  if (avgRPM > 0)
+  {
+    Serial.print(F("RPM  = ")); Serial.print((float) RPM / 100.f); Serial.print(F(", avgRPM  = ")); Serial.println((float) avgRPM / 100.f);
+  }
 
+  delay(1000);
 }

@@ -12,12 +12,12 @@
 ## Table of Contents
 
 * [Why do we need this ESP32_New_TimerInterrupt library](#why-do-we-need-this-esp32_new_timerinterrupt-library)
+  * [Important Notes](#Important-Notes)
   * [Features](#features)
   * [Why using ISR-based Hardware Timer Interrupt is better](#why-using-isr-based-hardware-timer-interrupt-is-better)
   * [Currently supported Boards](#currently-supported-boards)
   * [Important Notes about ISR](#important-notes-about-isr)
-* [Changelog](#changelog)
-  * [Releases v1.0.0](#releases-v100)
+* [Changelog](changelog.md)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
@@ -31,27 +31,20 @@
 * [More useful Information](#more-useful-information)
 * [How to use](#how-to-use)
 * [Examples](#examples)
-  * [  1. Argument_None](examples/Argument_None)
-  * [  2. Change_Interval](examples/Change_Interval).
-  * [  3. ISR_RPM_Measure](examples/ISR_RPM_Measure)
-  * [  4. ISR_Switch](examples/ISR_Switch)
-  * [  5. ISR_Timer_Complex](examples/ISR_Timer_Complex)
-  * [  6. ISR_Timer_Switch](examples/ISR_Timer_Switch)
-  * [  7. ISR_Timer_4_Switches](examples/ISR_Timer_4_Switches)
-  * [  8. ISR_Timer_Switches](examples/ISR_Timer_Switches)
-  * [  9. RPM_Measure](examples/RPM_Measure)
-  * [ 10. SwitchDebounce](examples/SwitchDebounce)
-  * [ 11. TimerInterruptTest](examples/TimerInterruptTest)
-  * [ 12. ISR_16_Timers_Array](examples/ISR_16_Timers_Array)
-  * [ 13. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
+  * [ 1. Argument_None](examples/Argument_None)
+  * [ 2. Change_Interval](examples/Change_Interval).
+  * [ 3. RPM_Measure](examples/RPM_Measure)
+  * [ 4. SwitchDebounce](examples/SwitchDebounce)
+  * [ 5. TimerInterruptTest](examples/TimerInterruptTest)
+  * [ 6. ISR_16_Timers_Array](examples/ISR_16_Timers_Array)
+  * [ 7. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
 * [Example ISR_16_Timers_Array_Complex](#example-isr_16_timers_array_complex)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
-  * [1. ISR_Timer_Complex on ESP32S2_DEV](#1-isr_timer_complex-on-esp32s2_dev)
-  * [2. TimerInterruptTest on ESP32C3_DEV](#2-timerinterrupttest-on-esp32c3_dev)
-  * [3. Change_Interval on ESP32_DEV](#3-change_interval-on-esp32_dev)
-  * [4. Argument_None on ESP32S2_DEV](#4-argument_none-on-esp32s2_dev)
-  * [5. ISR_16_Timers_Array_Complex on ESP32C3_DEV](#5-isr_16_timers_array_complex-on-esp32c3_dev)
-  * [6. ISR_16_Timers_Array on ESP32S2_DEV](#6-isr_16_timers_array-on-esp32s2_dev)
+  * [1. TimerInterruptTest on ESP32C3_DEV](#1-timerinterrupttest-on-esp32c3_dev)
+  * [2. Change_Interval on ESP32_DEV](#2-change_interval-on-esp32_dev)
+  * [3. Argument_None on ESP32S2_DEV](#3-argument_none-on-esp32s2_dev)
+  * [4. ISR_16_Timers_Array_Complex on ESP32C3_DEV](#4-isr_16_timers_array_complex-on-esp32c3_dev)
+  * [5. ISR_16_Timers_Array on ESP32S2_DEV](#5-isr_16_timers_array-on-esp32s2_dev)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -68,7 +61,12 @@
 
 ### Why do we need this [ESP32_New_TimerInterrupt library](https://github.com/khoih-prog/ESP32_New_TimerInterrupt)
 
-## Features
+### Important Notes
+
+1. Avoid using `PIN_D1 (GPIO1)` in your code due to issue with core v2.0.0 and v2.0.1. Check [ESP32 Core v2.0.1 / 2.0.1 RC1 crashes if using pinMode with GPIO1 #5868](https://github.com/espressif/arduino-esp32/issues/5868). Only OK with core v1.0.6-
+2. Don't use `float` in `ISR` due to issue with core v2.0.0 and v2.0.1. Only OK with core v1.0.6-.
+
+### Features
 
 This library enables you to use Interrupt from Hardware Timers on an ESP32, ESP32_S2/C3-based board.
 
@@ -127,20 +125,11 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ---
 ---
 
-## Changelog
-
-### Releases v1.0.0
-
-1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
-
-
----
----
-
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP32 core v2.0.0+`](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0) for ESP32, ESP32_S2/C3-based boards.
+1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
+2. [`ESP32 Core 2.0.1+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+
 ---
 ---
 
@@ -151,6 +140,8 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 The best and easiest way is to use `Arduino Library Manager`. Search for [**ESP32_New_TimerInterrupt**](https://github.com/khoih-prog/ESP32_New_TimerInterrupt), then select / install the latest version.
 You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP32_New_TimerInterrupt.svg?)](https://www.ardu-badge.com/ESP32_New_TimerInterrupt) for more detailed instructions.
 
+---
+
 ### Manual Install
 
 Another way to install is to:
@@ -159,6 +150,8 @@ Another way to install is to:
 2. Download the latest release `ESP32_New_TimerInterrupt-master.zip`.
 3. Extract the zip file to `ESP32_New_TimerInterrupt-master` directory 
 4. Copy whole `ESP32_New_TimerInterrupt-master` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+
+---
 
 ### VS Code & PlatformIO
 
@@ -270,18 +263,12 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 ### Examples: 
 
  1. [Argument_None](examples/Argument_None)
- 2. [ISR_RPM_Measure](examples/ISR_RPM_Measure)
- 3. [ISR_Switch](examples/ISR_Switch) 
- 4. [ISR_Timer_4_Switches](examples/ISR_Timer_4_Switches) 
- 5. [ISR_Timer_Complex](examples/ISR_Timer_Complex)
- 6. [ISR_Timer_Switch](examples/ISR_Timer_Switch)
- 7. [ISR_Timer_Switches](examples/ISR_Timer_Switches) 
- 8. [RPM_Measure](examples/RPM_Measure)
- 9. [SwitchDebounce](examples/SwitchDebounce)
-10. [TimerInterruptTest](examples/TimerInterruptTest)
-11. [**Change_Interval**](examples/Change_Interval).
-12. [**ISR_16_Timers_Array**](examples/ISR_16_Timers_Array)
-13. [**ISR_16_Timers_Array_Complex**](examples/ISR_16_Timers_Array_Complex).
+ 2. [RPM_Measure](examples/RPM_Measure)
+ 3. [SwitchDebounce](examples/SwitchDebounce)
+ 4. [TimerInterruptTest](examples/TimerInterruptTest)
+ 5. [**Change_Interval**](examples/Change_Interval).
+ 6. [**ISR_16_Timers_Array**](examples/ISR_16_Timers_Array)
+ 7. [**ISR_16_Timers_Array_Complex**](examples/ISR_16_Timers_Array_Complex).
 
 ---
 ---
@@ -294,16 +281,14 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 #endif
 
 // These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
-// _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
-// Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-// Don't define TIMER_INTERRUPT_DEBUG > 2. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         0
 #define _TIMERINTERRUPT_LOGLEVEL_     0
 
 #include "ESP32_New_TimerInterrupt.h"
 #include "ESP32_New_ISR_Timer.h"
 
 #include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
+
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
 
 #ifndef LED_BUILTIN
   #define LED_BUILTIN       2
@@ -329,6 +314,9 @@ ESP32_ISR_Timer ISR_Timer;
 
 #define LED_TOGGLE_INTERVAL_MS        2000L
 
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler(void * timerNo)
 { 
   static bool toggle  = false;
@@ -621,157 +609,77 @@ void loop()
 
 ### Debug Terminal Output Samples
 
-### 1. ISR_Timer_Complex on ESP32S2_DEV
 
-The following is the sample terminal output when running example [ISR_Timer_Complex](examples/ISR_Timer_Complex) to demonstrate the accuracy of ISR Hardware Timer, **especially when system is very busy**.  The ISR timer is **programmed for 2s, is activated exactly after 2.000s !!!**
-
-While software timer, **programmed for 2s, is activated after 3.435s !!!**
-
-```
-Starting ISR_Timer_Complex on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.0.0
-CPU Frequency = 240 MHz
-Starting ITimer OK, millis() = 3015
-[4415] 
-    ___  __          __
-   / _ )/ /_ _____  / /__
-  / _  / / // / _ \/  '_/
- /____/_/\_, /_//_/_/\_\
-        /___/ v0.6.1 on ESP32
-
-[4450] Ready (ping: 4ms).
-Blynk connected
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 6508
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-11s: D ms = 11000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5006
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-11s: D ms = 11000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5006
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-11s: D ms = 11000
-```
-
----
-
-### 2. TimerInterruptTest on ESP32C3_DEV
+### 1. TimerInterruptTest on ESP32C3_DEV
 
 The following is the sample terminal output when running example [TimerInterruptTest](examples/TimerInterruptTest) to demonstrate how to start/stop Hardware Timers.
 
 ```
-Starting TimerInterruptTest on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.0.0
-CPU Frequency = 160 MHz
+
+Starting TimerInterruptTest on ESP32_DEV
+ESP32_New_TimerInterrupt v1.0.1
+CPU Frequency = 240 MHz
+[TISR] ESP32_TimerInterrupt: _timerNo = 0 , _fre = 1000000
+[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
 [TISR] _timerIndex = 0 , _timerGroup = 0
 [TISR] _count = 0 - 1000000
 [TISR] timer_set_alarm_value = 1000000.00
-ITimer0 called, millis() = 307
-Starting  ITimer0 OK, millis() = 310
-[TISR] _timerIndex = 0 , _timerGroup = 1
+Starting  ITimer0 OK, millis() = 158
+[TISR] ESP32_TimerInterrupt: _timerNo = 1 , _fre = 1000000
+[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1 , _timerGroup = 0
 [TISR] _count = 0 - 3000000
 [TISR] timer_set_alarm_value = 3000000.00
-ITimer1 called, millis() = 333
-Starting  ITimer1 OK, millis() = 337
-ITimer0 called, millis() = 1305
-ITimer0 called, millis() = 2305
-ITimer0 called, millis() = 3305
-ITimer1 called, millis() = 3331
-ITimer0 called, millis() = 4305
+Starting  ITimer1 OK, millis() = 189
 Stop ITimer0, millis() = 5001
-ITimer1 called, millis() = 6331
-ITimer1 called, millis() = 9331
 Start ITimer0, millis() = 10002
-ITimer0 called, millis() = 11002
-ITimer0 called, millis() = 12002
-ITimer1 called, millis() = 12331
-ITimer0 called, millis() = 13002
-ITimer0 called, millis() = 14002
 Stop ITimer1, millis() = 15001
-ITimer0 called, millis() = 15002
 Stop ITimer0, millis() = 15003
 Start ITimer0, millis() = 20004
-ITimer0 called, millis() = 21004
-ITimer0 called, millis() = 22004
-ITimer0 called, millis() = 23004
-ITimer0 called, millis() = 24004
-ITimer0 called, millis() = 25004
 Stop ITimer0, millis() = 25005
+Start ITimer1, millis() = 30002
+Start ITimer0, millis() = 30006
 ```
 
 ---
 
 
-### 3. Change_Interval on ESP32_DEV
+### 2. Change_Interval on ESP32_DEV
 
 The following is the sample terminal output when running example [Change_Interval](examples/Change_Interval) to demonstrate how to change Timer Interval on-the-fly
 
 ```
 Starting Change_Interval on ESP32_DEV
-ESP32_New_TimerInterrupt v1.0.0
+ESP32_New_TimerInterrupt v1.0.1
 CPU Frequency = 240 MHz
-ITimer0: millis() = 129
-Starting  ITimer0 OK, millis() = 132
-ITimer1: millis() = 134
-Starting  ITimer1 OK, millis() = 137
-ITimer0: millis() = 2129
-ITimer0: millis() = 4129
-ITimer1: millis() = 5132
-ITimer0: millis() = 6129
-ITimer0: millis() = 8129
+Starting  ITimer0 OK, millis() = 136
+Starting  ITimer1 OK, millis() = 147
 Time = 10001, Timer0Count = 5, Timer1Count = 2
-ITimer0: millis() = 10129
-ITimer1: millis() = 10132
-ITimer0: millis() = 12129
-ITimer0: millis() = 14129
-ITimer1: millis() = 15132
-ITimer0: millis() = 16129
-ITimer0: millis() = 18129
 Time = 20002, Timer0Count = 10, Timer1Count = 4
 Changing Interval, Timer0 = 4000,  Timer1 = 10000
-ITimer0: millis() = 24002
-ITimer0: millis() = 28002
-ITimer1: millis() = 30002
 Time = 30003, Timer0Count = 12, Timer1Count = 5
-ITimer0: millis() = 32002
-ITimer0: millis() = 36002
-ITimer0: millis() = 40002
-ITimer1: millis() = 40002
 Time = 40004, Timer0Count = 15, Timer1Count = 6
 Changing Interval, Timer0 = 2000,  Timer1 = 5000
-
+Time = 50005, Timer0Count = 20, Timer1Count = 8
+Time = 60006, Timer0Count = 25, Timer1Count = 10
+Changing Interval, Timer0 = 4000,  Timer1 = 10000
+Time = 70007, Timer0Count = 27, Timer1Count = 11
+Time = 80008, Timer0Count = 30, Timer1Count = 12
+Changing Interval, Timer0 = 2000,  Timer1 = 5000
+Time = 90009, Timer0Count = 35, Timer1Count = 14
+Time = 100010, Timer0Count = 40, Timer1Count = 16
+Changing Interval, Timer0 = 4000,  Timer1 = 10000
 ```
 
 ---
 
-### 4. Argument_None on ESP32S2_DEV
+### 3. Argument_None on ESP32S2_DEV
 
 The following is the sample terminal output when running example [Argument_None](examples/Argument_None)
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.0.0
+ESP32_New_TimerInterrupt v1.0.1
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -817,13 +725,13 @@ ITimer0: millis() = 22651
 
 ---
 
-### 5. ISR_16_Timers_Array_Complex on ESP32C3_DEV
+### 4. ISR_16_Timers_Array_Complex on ESP32C3_DEV
 
 The following is the sample terminal output when running example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) on **ESP32C3_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.0.0
+ESP32_New_TimerInterrupt v1.0.1
 CPU Frequency = 160 MHz
 Starting ITimer OK, millis() = 2187
 SimpleTimer : 2, ms : 12193, Dms : 10004
@@ -967,79 +875,17 @@ Timer : 15, programmed : 80000, actual : 80008
 
 ---
 
-### 6. ISR_16_Timers_Array on ESP32S2_DEV
+### 5. ISR_16_Timers_Array on ESP32S2_DEV
 
 The following is the sample terminal output when running example [ISR_16_Timers_Array](examples/ISR_16_Timers_Array) on **ESP32S2_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
 
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.0.0
+ESP32_New_TimerInterrupt v1.0.1
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 2538
-1s: Delta ms = 1002, ms = 3540
-1s: Delta ms = 999, ms = 4539
-2s: Delta ms = 2002, ms = 4540
-1s: Delta ms = 1000, ms = 5539
-3s: Delta ms = 3002, ms = 5540
-1s: Delta ms = 1000, ms = 6539
-2s: Delta ms = 2000, ms = 6540
-4s: Delta ms = 4002, ms = 6540
-1s: Delta ms = 1000, ms = 7539
-5s: Delta ms = 5002, ms = 7540
-1s: Delta ms = 1000, ms = 8539
-2s: Delta ms = 2000, ms = 8540
-3s: Delta ms = 3000, ms = 8540
-6s: Delta ms = 6002, ms = 8540
-1s: Delta ms = 1000, ms = 9539
-7s: Delta ms = 7002, ms = 9540
-1s: Delta ms = 1000, ms = 10539
-2s: Delta ms = 2000, ms = 10540
-4s: Delta ms = 4000, ms = 10540
-8s: Delta ms = 8002, ms = 10540
-1s: Delta ms = 1000, ms = 11539
-3s: Delta ms = 3000, ms = 11540
-9s: Delta ms = 9002, ms = 11540
-1s: Delta ms = 1000, ms = 12539
-2s: Delta ms = 2000, ms = 12540
-5s: Delta ms = 5000, ms = 12540
-10s: Delta ms = 10002, ms = 12540
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10008
-1s: Delta ms = 1000, ms = 13539
-11s: Delta ms = 11002, ms = 13540
-1s: Delta ms = 1000, ms = 14539
-2s: Delta ms = 2000, ms = 14540
-3s: Delta ms = 3000, ms = 14540
-4s: Delta ms = 4000, ms = 14540
-6s: Delta ms = 6000, ms = 14540
-12s: Delta ms = 12005, ms = 14543
-1s: Delta ms = 1000, ms = 15539
-13s: Delta ms = 13001, ms = 15539
-1s: Delta ms = 1000, ms = 16539
-2s: Delta ms = 1999, ms = 16539
-7s: Delta ms = 6999, ms = 16539
-14s: Delta ms = 14001, ms = 16539
-1s: Delta ms = 1000, ms = 17539
-3s: Delta ms = 2999, ms = 17539
-5s: Delta ms = 4999, ms = 17539
-15s: Delta ms = 15001, ms = 17539
-1s: Delta ms = 1000, ms = 18539
-2s: Delta ms = 2000, ms = 18539
-4s: Delta ms = 3999, ms = 18539
-8s: Delta ms = 7999, ms = 18539
-16s: Delta ms = 16001, ms = 18539
-1s: Delta ms = 1000, ms = 19539
-1s: Delta ms = 1000, ms = 20539
-2s: Delta ms = 2000, ms = 20539
-3s: Delta ms = 3000, ms = 20539
-6s: Delta ms = 5999, ms = 20539
-9s: Delta ms = 9000, ms = 20540
-1s: Delta ms = 1001, ms = 21540
-1s: Delta ms = 1000, ms = 22540
-2s: Delta ms = 2001, ms = 22540
-4s: Delta ms = 4001, ms = 22540
-5s: Delta ms = 5001, ms = 22540
-10s: Delta ms = 10000, ms = 22540
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10005
 ```
 
@@ -1102,6 +948,9 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
 4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
 5. Fix compiler errors due to conflict to some libraries.
 6. Add complex examples.
+7. Avoid using D1 in examples due to issue with core v2.0.0 and v2.0.1.
+8. Avoid using float in ISR due to issue with core v2.0.0 and v2.0.1.
+
 
 ---
 ---
