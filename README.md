@@ -47,7 +47,6 @@
   * [5. ISR_16_Timers_Array on ESP32S2_DEV](#5-isr_16_timers_array-on-esp32s2_dev)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -64,7 +63,7 @@
 ### Important Notes
 
 1. Avoid using `PIN_D1 (GPIO1)` in your code due to issue with core v2.0.0 and v2.0.1. Check [ESP32 Core v2.0.1 / 2.0.1 RC1 crashes if using pinMode with GPIO1 #5868](https://github.com/espressif/arduino-esp32/issues/5868). Only OK with core v1.0.6-
-2. Don't use `float` in `ISR` due to issue with core v2.0.0 and v2.0.1. Only OK with core v1.0.6-.
+2. Don't use `float` in `ISR` due to issue with core v2.0.0 and v2.0.1. Check [ESP32 Core v2.0.1 / 2.0.1 RC1 crashes if using float in ISR #5892](https://github.com/espressif/arduino-esp32/issues/5892). Only OK with core v1.0.6-.
 
 ### Features
 
@@ -127,8 +126,8 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP32 Core 2.0.1+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
+2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
 
 ---
 ---
@@ -167,24 +166,20 @@ Another way to install is to:
 
 ### HOWTO Fix `Multiple Definitions` Linker Error
 
-The current library implementation, using **xyz-Impl.h instead of standard xyz.cpp**, possibly creates certain `Multiple Definitions` Linker error in certain use cases. Although it's simple to just modify several lines of code, either in the library or in the application, the library is adding 2 more source directories
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
 
-1. **scr_h** for new h-only files
-2. **src_cpp** for standard h/cpp files
+You can use
 
-besides the standard **src** directory.
+```
+#include <ESP32_New_ISR_Timer.hpp>               //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
+```
 
-To use the **old standard cpp** way, locate this library' directory, then just 
+in many files. But be sure to use the following `#include <ESP32_New_ISR_Timer.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-1. **Delete the all the files in src directory.**
-2. **Copy all the files in src_cpp directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
-
-To re-use the **new h-only** way, just 
-
-1. **Delete the all the files in src directory.**
-2. **Copy the files in src_h directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include <ESP32_New_ISR_Timer.h>                //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
+```
 
 ---
 ---
@@ -617,7 +612,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 ```
 
 Starting TimerInterruptTest on ESP32_DEV
-ESP32_New_TimerInterrupt v1.0.1
+ESP32_New_TimerInterrupt v1.1.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -650,7 +645,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32_DEV
-ESP32_New_TimerInterrupt v1.0.1
+ESP32_New_TimerInterrupt v1.1.0
 CPU Frequency = 240 MHz
 Starting  ITimer0 OK, millis() = 136
 Starting  ITimer1 OK, millis() = 147
@@ -679,7 +674,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.0.1
+ESP32_New_TimerInterrupt v1.1.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -731,7 +726,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.0.1
+ESP32_New_TimerInterrupt v1.1.0
 CPU Frequency = 160 MHz
 Starting ITimer OK, millis() = 2187
 SimpleTimer : 2, ms : 12193, Dms : 10004
@@ -882,7 +877,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.0.1
+ESP32_New_TimerInterrupt v1.1.0
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 2538
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10008
@@ -918,20 +913,12 @@ Sometimes, the library will only work if you update the board core to the latest
 ---
 ---
 
-## Releases
-
-### Releases v1.0.0
-
-1. Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
-
-
----
----
 
 ### Issues
 
 Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues)
 
+---
 ---
 
 ## TO DO

@@ -27,12 +27,13 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.0.1
+  Version: 1.1.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   1.0.1   K.Hoang      14/11/2021 Avoid using float and D1 in examples due to issue with core v2.0.0 and v2.0.1
+  1.1.0   K.Hoang      18/01/2022 Fix `multiple-definitions` linker error.
 *****************************************************************************************************************************/
 
 #pragma once

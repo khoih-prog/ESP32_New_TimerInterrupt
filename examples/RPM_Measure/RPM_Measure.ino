@@ -73,8 +73,10 @@ ESP32Timer ITimer0(0);
 volatile unsigned long rotationTime = 0;
 
 // Not using float => using RPM = 100 * real RPM
-uint32_t RPM       = 0;
-uint32_t avgRPM    = 0;
+float RPM       = 0;
+float avgRPM    = 0;
+//uint32_t RPM       = 0;
+//uint32_t avgRPM    = 0;
 
 volatile int debounceCounter;
 
