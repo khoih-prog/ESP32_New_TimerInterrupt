@@ -937,6 +937,7 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
 6. Add complex examples.
 7. Avoid using D1 in examples due to issue with core v2.0.0 and v2.0.1.
 8. Avoid using float in ISR due to issue with core v2.0.0 and v2.0.1.
+9. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
 
 
 ---
