@@ -1098,7 +1098,7 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
  8. Avoid using float in ISR due to issue with core v2.0.0 and v2.0.1.
  9. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
 10. Optimize library code by using `reference-passing` instead of `value-passing`
-11. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) using EEPROM, SPIFFS or LittleFS**
+11. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.)**
 
 ---
 ---
