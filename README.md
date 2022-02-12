@@ -6,7 +6,7 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP32_New_TimerInterrupt.svg)](http://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 181px !important;" ></a>
 
 ---
 ---
@@ -47,6 +47,7 @@
   * [3. Argument_None on ESP32S2_DEV](#3-argument_none-on-esp32s2_dev)
   * [4. ISR_16_Timers_Array_Complex on ESP32C3_DEV](#4-isr_16_timers_array_complex-on-esp32c3_dev)
   * [5. ISR_16_Timers_Array on ESP32S2_DEV](#5-isr_16_timers_array-on-esp32s2_dev)
+  * [6. ISR_16_Timers_Array_Complex on ESP32S3_DEV](#6-isr_16_timers_array_complex-on-ESP32S3_DEV) **New**
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Issues](#issues)
@@ -69,7 +70,7 @@
 
 ### Features
 
-This library enables you to use Interrupt from Hardware Timers on an ESP32, ESP32_S2/C3-based board.
+This library enables you to use Interrupt from Hardware Timers on an ESP32, ESP32_S2/S3/C3-based board.
 
 ---
 
@@ -111,8 +112,10 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ### Currently supported Boards
 
 1. ESP32 boards, such as ESP32_DEV, etc.
-2. ESP32S2-based boards, such as ESP32S2_DEV, ESP32_S2 Saola, etc.
-3. ESP32C3-based boards, such as ESP32C3_DEV, etc.
+2. ESP32_S2-based boards, such as ESP32S2_DEV, ESP32_S2 Saola, etc.
+3. ESP32_C3-based boards, such as ESP32C3_DEV, etc.
+4. ESP32_S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) **New**
+
 
 ---
 
@@ -129,7 +132,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
-2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2, ESP32_S3 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
 
 ---
 ---
@@ -158,7 +161,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**ESP32_New_TimerInterrupt** library](https://platformio.org/lib/show/12678/ESP32_New_TimerInterrupt) by using [Library Manager](https://platformio.org/lib/show/12678/ESP32_New_TimerInterrupt/installation). Search for **ESP32_New_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**ESP32_New_TimerInterrupt** library](https://registry.platformio.org/libraries/khoih-prog/ESP32_New_TimerInterrupt) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/ESP32_New_TimerInterrupt/installation). Search for **ESP32_New_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 
@@ -278,7 +281,7 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 #endif
 
 // These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
-#define _TIMERINTERRUPT_LOGLEVEL_     0
+#define _TIMERINTERRUPT_LOGLEVEL_     4
 
 #include "ESP32_New_TimerInterrupt.h"
 #include "ESP32_New_ISR_Timer.h"
@@ -614,7 +617,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 ```
 
 Starting TimerInterruptTest on ESP32_DEV
-ESP32_New_TimerInterrupt v1.1.0
+ESP32_New_TimerInterrupt v1.2.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -647,7 +650,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32_DEV
-ESP32_New_TimerInterrupt v1.1.0
+ESP32_New_TimerInterrupt v1.2.0
 CPU Frequency = 240 MHz
 Starting  ITimer0 OK, millis() = 136
 Starting  ITimer1 OK, millis() = 147
@@ -676,7 +679,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.1.0
+ESP32_New_TimerInterrupt v1.2.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -728,7 +731,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.1.0
+ESP32_New_TimerInterrupt v1.2.0
 CPU Frequency = 160 MHz
 Starting ITimer OK, millis() = 2187
 SimpleTimer : 2, ms : 12193, Dms : 10004
@@ -879,11 +882,165 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.1.0
+ESP32_New_TimerInterrupt v1.2.0
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 2538
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10008
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10005
+```
+
+---
+
+### 6. ISR_16_Timers_Array_Complex on ESP32S3_DEV
+
+The following is the sample terminal output when running example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) on **ESP32S3_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
+
+```
+Starting ISR_16_Timers_Array_Complex on ESP32S3_DEV
+ESP32_New_TimerInterrupt v1.2.0
+CPU Frequency = 240 MHz
+[TISR] ESP32_S3_TimerInterrupt: _timerNo = 1 , _fre = 1000000
+[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1 , _timerGroup = 0
+[TISR] _count = 0 - 10000
+[TISR] timer_set_alarm_value = 10000.00
+Starting ITimer OK, millis() = 2118
+SimpleTimer : 2, ms : 12117, Dms : 9999
+Timer : 0, programmed : 5000, actual : 5009
+Timer : 1, programmed : 10000, actual : 0
+Timer : 2, programmed : 15000, actual : 0
+Timer : 3, programmed : 20000, actual : 0
+Timer : 4, programmed : 25000, actual : 0
+Timer : 5, programmed : 30000, actual : 0
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 22180, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15009
+Timer : 3, programmed : 20000, actual : 20009
+Timer : 4, programmed : 25000, actual : 0
+Timer : 5, programmed : 30000, actual : 0
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 32243, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20009
+Timer : 4, programmed : 25000, actual : 25009
+Timer : 5, programmed : 30000, actual : 30009
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 42306, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25009
+Timer : 5, programmed : 30000, actual : 30009
+Timer : 6, programmed : 35000, actual : 35009
+Timer : 7, programmed : 40000, actual : 40009
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 52369, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30009
+Timer : 6, programmed : 35000, actual : 35009
+Timer : 7, programmed : 40000, actual : 40009
+Timer : 8, programmed : 45000, actual : 45009
+Timer : 9, programmed : 50000, actual : 50009
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 62432, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35009
+Timer : 7, programmed : 40000, actual : 40009
+Timer : 8, programmed : 45000, actual : 45009
+Timer : 9, programmed : 50000, actual : 50009
+Timer : 10, programmed : 55000, actual : 55009
+Timer : 11, programmed : 60000, actual : 60009
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 72495, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40009
+Timer : 8, programmed : 45000, actual : 45009
+Timer : 9, programmed : 50000, actual : 50009
+Timer : 10, programmed : 55000, actual : 55009
+Timer : 11, programmed : 60000, actual : 60009
+Timer : 12, programmed : 65000, actual : 65009
+Timer : 13, programmed : 70000, actual : 70009
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 82558, Dms : 10063
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45009
+Timer : 9, programmed : 50000, actual : 50009
+Timer : 10, programmed : 55000, actual : 55009
+Timer : 11, programmed : 60000, actual : 60009
+Timer : 12, programmed : 65000, actual : 65009
+Timer : 13, programmed : 70000, actual : 70009
+Timer : 14, programmed : 75000, actual : 75009
+Timer : 15, programmed : 80000, actual : 80009
 ```
 
 ---
@@ -931,16 +1088,17 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
 
 ## DONE
 
-1. Basic hardware timers for ESP32, ESP32-S2 and ESP32_C3 for [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
-2. More hardware-initiated software-enabled timers
-3. Longer time interval
-4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
-5. Fix compiler errors due to conflict to some libraries.
-6. Add complex examples.
-7. Avoid using D1 in examples due to issue with core v2.0.0 and v2.0.1.
-8. Avoid using float in ISR due to issue with core v2.0.0 and v2.0.1.
-9. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
-
+ 1. Basic hardware timers for ESP32, ESP32-S2, ESP32-S3 and ESP32_C3 for [ESP32 core v2.0.0-rc1+](https://github.com/espressif/arduino-esp32/releases/tag/2.0.0-rc1)
+ 2. More hardware-initiated software-enabled timers
+ 3. Longer time interval
+ 4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
+ 5. Fix compiler errors due to conflict to some libraries.
+ 6. Add complex examples.
+ 7. Avoid using D1 in examples due to issue with core v2.0.0 and v2.0.1.
+ 8. Avoid using float in ISR due to issue with core v2.0.0 and v2.0.1.
+ 9. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
+10. Optimize library code by using `reference-passing` instead of `value-passing`
+11. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) using EEPROM, SPIFFS or LittleFS**
 
 ---
 ---

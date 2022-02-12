@@ -45,8 +45,11 @@
    You can also use interrupt to detect whenever the SW is active, set a flag then use timer to count the time between active state
 */
 
-#if !defined( ESP32 )
+#if !defined(ESP32)
   #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
+#elif ( defined(ARDUINO_ESP32S3_DEV) || defined(ARDUINO_ESP32_S3_BOX) || defined(ARDUINO_TINYS3) || \
+        defined(ARDUINO_PROS3) || defined(ARDUINO_FEATHERS3) )
+  #error ESP32_S3 is not supported yet
 #endif
 
 // These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"

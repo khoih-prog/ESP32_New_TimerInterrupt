@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.2.0](#releases-v120)
   * [Releases v1.1.0](#releases-v110)
   * [Releases v1.0.1](#releases-v101)
   * [Releases v1.0.0](#releases-v100)
@@ -21,6 +22,12 @@
 ---
 
 ## Changelog
+
+### Releases v1.2.0
+
+1. Add support to new `ESP32-S3`
+2. Optimize library code by using `reference-passing` instead of `value-passing`
+
 
 ### Releases v1.1.0
 

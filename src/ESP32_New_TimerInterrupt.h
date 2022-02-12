@@ -28,13 +28,14 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.1.0
+  Version: 1.2.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      15/08/2021 Initial coding for ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   1.0.1   K.Hoang      14/11/2021 Avoid using float and D1 in examples due to issue with core v2.0.0 and v2.0.1
   1.1.0   K.Hoang      18/01/2022 Fix `multiple-definitions` linker error.
+  1.2.0   K Hoang      12/02/2022 Add support to new ESP32-S3
 *****************************************************************************************************************************/
 
 #pragma once
@@ -46,6 +47,9 @@
         ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
         ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM )
   #define USING_ESP32_S2_NEW_TIMERINTERRUPT         true
+#elif ( defined(ARDUINO_ESP32S3_DEV) || defined(ARDUINO_ESP32_S3_BOX) || defined(ARDUINO_TINYS3) || \
+        defined(ARDUINO_PROS3) || defined(ARDUINO_FEATHERS3) )
+  #define USING_ESP32_S3_NEW_TIMERINTERRUPT         true
 #elif ( ARDUINO_ESP32C3_DEV )
   #define USING_ESP32_C3_NEW_TIMERINTERRUPT         true  
 #elif defined(ESP32)
@@ -55,13 +59,13 @@
 #endif
 
 #ifndef ESP32_NEW_TIMERINTERRUPT_VERSION
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.1.0"
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.2.0"
   
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_MAJOR     1
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     1
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     2
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_PATCH     0
 
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1001000
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1002000
 #endif
 
 #ifndef TIMER_INTERRUPT_DEBUG
@@ -184,8 +188,6 @@ typedef ESP32TimerInterrupt ESP32Timer;
 //esp_err_t timer_group_intr_enable(timer_group_t group_num, timer_intr_t intr_mask);
 //esp_err_t timer_group_intr_disable(timer_group_t group_num, timer_intr_t intr_mask);
 
-
-
 typedef bool (*esp32_timer_callback)  (void *);
 
 // For ESP32_C3, TIMER_MAX == 1
@@ -259,7 +261,7 @@ class ESP32TimerInterrupt
 
     // frequency (in hertz) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be addes in the future by adding similar functions here or to esp32-hal-timer.c
-    bool setFrequency(float frequency, esp32_timer_callback callback)
+    bool setFrequency(const float& frequency, esp32_timer_callback callback)
     {
       if (_timerNo < MAX_ESP32_NUM_TIMERS)
       {      
@@ -275,6 +277,14 @@ class ESP32TimerInterrupt
         TISR_LOGWARN3(F("_timerIndex ="), _timerIndex, F(", _timerGroup ="), _timerGroup);
         TISR_LOGWARN3(F("_count ="), (uint32_t) (_timerCount >> 32) , F("-"), (uint32_t) (_timerCount));
         TISR_LOGWARN1(F("timer_set_alarm_value ="), TIMER_SCALE / frequency);
+#elif USING_ESP32_S3_NEW_TIMERINTERRUPT
+        // ESP32-S3 is embedded with four 54-bit general-purpose timers, which are based on 16-bit prescalers
+        // and 54-bit auto-reload-capable up/down-timers
+        TISR_LOGWARN3(F("ESP32_S3_TimerInterrupt: _timerNo ="), _timerNo, F(", _fre ="), TIMER_BASE_CLK / TIMER_DIVIDER);
+        TISR_LOGWARN3(F("TIMER_BASE_CLK ="), TIMER_BASE_CLK, F(", TIMER_DIVIDER ="), TIMER_DIVIDER);
+        TISR_LOGWARN3(F("_timerIndex ="), _timerIndex, F(", _timerGroup ="), _timerGroup);
+        TISR_LOGWARN3(F("_count ="), (uint32_t) (_timerCount >> 32) , F("-"), (uint32_t) (_timerCount));
+        TISR_LOGWARN1(F("timer_set_alarm_value ="), TIMER_SCALE / frequency);        
 #else
         TISR_LOGWARN3(F("ESP32_TimerInterrupt: _timerNo ="), _timerNo, F(", _fre ="), TIMER_BASE_CLK / TIMER_DIVIDER);
         TISR_LOGWARN3(F("TIMER_BASE_CLK ="), TIMER_BASE_CLK, F(", TIMER_DIVIDER ="), TIMER_DIVIDER);
@@ -319,19 +329,19 @@ class ESP32TimerInterrupt
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be addes in the future by adding similar functions here or to esp32-hal-timer.c
-    bool setInterval(unsigned long interval, esp32_timer_callback callback)
+    bool setInterval(const unsigned long& interval, esp32_timer_callback callback)
     {
       return setFrequency((float) (1000000.0f / interval), callback);
     }
 
-    bool attachInterrupt(float frequency, esp32_timer_callback callback)
+    bool attachInterrupt(const float& frequency, esp32_timer_callback callback)
     {
       return setFrequency(frequency, callback);
     }
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be addes in the future by adding similar functions here or to esp32-hal-timer.c
-    bool attachInterruptInterval(unsigned long interval, esp32_timer_callback callback)
+    bool attachInterruptInterval(const unsigned long& interval, esp32_timer_callback callback)
     {
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }

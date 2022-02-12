@@ -45,7 +45,7 @@
 #endif
 
 // These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
-#define _TIMERINTERRUPT_LOGLEVEL_     0
+#define _TIMERINTERRUPT_LOGLEVEL_     4
 
 #include "ESP32_New_TimerInterrupt.h"
 #include "ESP32_New_ISR_Timer.h"
