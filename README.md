@@ -176,14 +176,14 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 You can use
 
 ```
-#include <ESP32_New_ISR_Timer.hpp>               //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
+#include <ESP32_New_TimerInterrupt.hpp>               //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
 ```
 
-in many files. But be sure to use the following `#include <ESP32_New_ISR_Timer.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
+in many files. But be sure to use the following `#include <ESP32_New_TimerInterrupt.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
 ```
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <ESP32_New_ISR_Timer.h>                //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
+#include <ESP32_New_TimerInterrupt.h>                //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
 ```
 
 ---
