@@ -111,10 +111,10 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. ESP32 boards, such as ESP32_DEV, etc.
-2. ESP32_S2-based boards, such as ESP32S2_DEV, ESP32_S2 Saola, etc.
-3. ESP32_C3-based boards, such as ESP32C3_DEV, etc.
-4. ESP32_S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) **New**
+1. ESP32 boards, such as `ESP32_DEV`, etc.
+2. ESP32S2-based boards, such as `ESP32S2_DEV`, `ESP32_S2 Saola`, Adafruit QTPY_ESP32S2, etc.
+3. ESP32C3-based boards, such as `ESP32C3_DEV`, etc. **New**
+4. ESP32_S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, FEATHER_ESP32S3_NOPSRAM and QTPY_ESP32S3_NOPSRAM, etc.) **New**
 
 
 ---
@@ -132,7 +132,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
-2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2, ESP32_S3 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+2. [`ESP32 Core 2.0.3+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards (ESP32, ESP32_S2, ESP32_S3 and ESP32_C3). [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
 
 ---
 ---
@@ -179,7 +179,7 @@ You can use
 #include <ESP32_New_TimerInterrupt.hpp>               //https://github.com/khoih-prog/ESP32_New_TimerInterrupt
 ```
 
-in many files. But be sure to use the following `#include <ESP32_New_TimerInterrupt.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
+in many files. But be sure to use the following `#include <ESP32_New_ISR_Timer.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
 ```
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
@@ -617,7 +617,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 ```
 
 Starting TimerInterruptTest on ESP32_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 240 MHz
 [TISR] ESP32_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -650,7 +650,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 240 MHz
 Starting  ITimer0 OK, millis() = 136
 Starting  ITimer1 OK, millis() = 147
@@ -679,7 +679,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -731,7 +731,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 160 MHz
 Starting ITimer OK, millis() = 2187
 SimpleTimer : 2, ms : 12193, Dms : 10004
@@ -882,7 +882,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 2538
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10008
@@ -897,7 +897,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32S3_DEV
-ESP32_New_TimerInterrupt v1.2.0
+ESP32_New_TimerInterrupt v1.2.1
 CPU Frequency = 240 MHz
 [TISR] ESP32_S3_TimerInterrupt: _timerNo = 1 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80

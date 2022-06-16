@@ -27,7 +27,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.2.0
+  Version: 1.2.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -35,6 +35,7 @@
   1.0.1   K.Hoang      14/11/2021 Avoid using float and D1 in examples due to issue with core v2.0.0 and v2.0.1
   1.1.0   K.Hoang      18/01/2022 Fix `multiple-definitions` linker error.
   1.2.0   K Hoang      12/02/2022 Add support to new ESP32-S3
+  1.2.1   K Hoang      16/06/2022 Add support to new Adafruit boards
  *****************************************************************************************************************************/
 
 #pragma once
