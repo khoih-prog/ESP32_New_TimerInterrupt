@@ -1,14 +1,14 @@
-## Contributing to ESP32_New_ISR_Servo
+## Contributing to ESP32_New_TimerInterrupt
 
 ### Reporting Bugs
 
-Please report bugs in ESP32_New_ISR_Servo if you find them.
+Please report bugs in [ESP32_New_TimerInterrupt Issues](https://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues) if you find them.
 
 However, before reporting a bug please check through the following:
 
-* [Existing Open Issues](https://github.com/khoih-prog/ESP32_New_ISR_Servo/issues) - someone might have already encountered this.
+* [Existing Open Issues](https://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues) - someone might have already encountered this.
 
-If you don't find anything, please [open a new issue](https://github.com/khoih-prog/ESP32_New_ISR_Servo/issues/new).
+If you don't find anything, please [open a new issue](https://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues/new).
 
 ### How to submit a bug report
 
@@ -37,7 +37,7 @@ OS: Ubuntu 20.04 LTS
 Linux xy-Inspiron-3593 5.15.0-41-generic #44~20.04.1-Ubuntu SMP Fri Jun 24 13:27:29 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
-I encountered a crash while trying to use the Timer Interrupt.
+I encountered a crash while using ESP32_New_TimerInterrupt.
 
 Steps to reproduce:
 1. ...
@@ -50,7 +50,7 @@ Steps to reproduce:
 
 Feel free to post feature requests. It's helpful if you can explain exactly why the feature would be useful.
 
-There are usually some outstanding feature requests in the [existing issues list](https://github.com/khoih-prog/ESP32_New_ISR_Servo/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement), feel free to add comments to them.
+There are usually some outstanding feature requests in the [existing issues list](https://github.com/khoih-prog/ESP32_New_TimerInterrupt/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement), feel free to add comments to them.
 
 ### Sending Pull Requests
 

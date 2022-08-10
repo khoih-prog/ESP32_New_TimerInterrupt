@@ -27,7 +27,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.2.1
+  Version: 1.3.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -36,6 +36,7 @@
   1.1.0   K.Hoang      18/01/2022 Fix `multiple-definitions` linker error.
   1.2.0   K Hoang      12/02/2022 Add support to new ESP32-S3
   1.2.1   K Hoang      16/06/2022 Add support to new Adafruit boards
+  1.3.0   K Hoang      03/08/2022 Suppress errors and warnings for new ESP32 core
 *****************************************************************************************************************************/
 
 #pragma once
