@@ -113,9 +113,9 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ### Currently supported Boards
 
 1. ESP32 boards, such as `ESP32_DEV`, etc.
-2. ESP32S2-based boards, such as `ESP32S2_DEV`, `ESP32_S2 Saola`, Adafruit QTPY_ESP32S2, etc.
-3. ESP32C3-based boards, such as `ESP32C3_DEV`, etc. **New**
-4. ESP32_S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, FEATHER_ESP32S3_NOPSRAM and QTPY_ESP32S3_NOPSRAM, etc.) **New**
+2. ESP32_S2-based boards, such as `ESP32S2_DEV`, `ESP32_S2 Saola`, Adafruit QTPY_ESP32S2, ESP32S2 Native USB, UM FeatherS2 Neo, UM TinyS2, UM RMP, microS2, etc.
+3. ESP32_C3-based boards, such as `ESP32C3_DEV`, LOLIN_C3_MINI, DFROBOT_BEETLE_ESP32_C3, ADAFRUIT_QTPY_ESP32C3, AirM2M_CORE_ESP32C3, XIAO_ESP32C3, etc. **New**
+4. ESP32_S3-based boards, such as ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, FEATHER_ESP32S3_NOPSRAM, QTPY_ESP32S3_NOPSRAM, etc. **New**
 
 
 ---
@@ -291,7 +291,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 ```
 
 Starting TimerInterruptTest on ESP32_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -324,7 +324,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 240 MHz
 Starting  ITimer0 OK, millis() = 136
 Starting  ITimer1 OK, millis() = 147
@@ -353,7 +353,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -405,7 +405,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32C3_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 160 MHz
 Starting ITimer OK, millis() = 2187
 SimpleTimer : 2, ms : 12193, Dms : 10004
@@ -556,7 +556,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 2538
 simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10008
@@ -571,7 +571,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32S3_DEV
-ESP32_New_TimerInterrupt v1.3.0
+ESP32_New_TimerInterrupt v1.4.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S3_TimerInterrupt: _timerNo = 1 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
@@ -773,6 +773,10 @@ Submit issues to: [ESP32_New_TimerInterrupt issues](https://github.com/khoih-pro
  9. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
 10. Optimize library code by using `reference-passing` instead of `value-passing`
 11. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.)**
+12. Add support to many more boards, such as
+  - ESP32_S2 : ESP32S2 Native USB, UM FeatherS2 Neo, UM TinyS2, UM RMP, microS2, LOLIN_S2_MINI, LOLIN_S2_PICO, ADAFRUIT_FEATHER_ESP32S2, ADAFRUIT_FEATHER_ESP32S2_TFT, ATMegaZero ESP32-S2, Deneyap Mini, FRANZININHO_WIFI, FRANZININHO_WIFI_MSC
+  - ESP32_S3 : UM TinyS3, UM PROS3, UM FeatherS3, ESP32_S3_USB_OTG, ESP32S3_CAM_LCD, DFROBOT_FIREBEETLE_2_ESP32S3, ADAFRUIT_FEATHER_ESP32S3_TFT
+  - ESP32_C3 : LOLIN_C3_MINI, DFROBOT_BEETLE_ESP32_C3, ADAFRUIT_QTPY_ESP32C3, AirM2M_CORE_ESP32C3, XIAO_ESP32C3
 
 ---
 ---

@@ -1,17 +1,17 @@
 /****************************************************************************************************************************
   ISR_16_Timers_Array_Complex.ino
-  For ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+  For ESP32, ESP32_S2, ESP32_S3, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   Written by Khoi Hoang
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP32_New_TimerInterrupt
   Licensed under MIT license
 
-  The ESP32, ESP32_S2, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
-  1) each group of ESP32, ESP32_S2 has two general purpose hardware timers, TIMER_0 and TIMER_1
+  The ESP32, ESP32_S2, ESP32_S3, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
+  1) each group of ESP32, ESP32_S2, ESP32_S3 has two general purpose hardware timers, TIMER_0 and TIMER_1
   2) each group of ESP32_C3 has ony one general purpose hardware timer, TIMER_0
-  
-  All the timers are based on 64 bits counters and 16 bit prescalers. The timer counters can be configured to count up or down 
-  and support automatic reload and software reload. They can also generate alarms when they reach a specific value, defined by 
+
+  All the timers are based on 64 bits counters and 16 bit prescalers. The timer counters can be configured to count up or down
+  and support automatic reload and software reload. They can also generate alarms when they reach a specific value, defined by
   the software. The value of the counter can be read by the software program.
 
   Now even you use all these new 16 ISR-based timers,with their maximum interval practically unlimited (limited only by
@@ -41,10 +41,10 @@
 */
 
 #if !defined( ESP32 )
-  #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
+#error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
 #endif
 
-// These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
+// These define's must be placed at the beginning before #include "ESP32_New_TimerInterrupt.h"
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 
 #include "ESP32_New_TimerInterrupt.h"
@@ -55,15 +55,15 @@
 // Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
 
 #ifndef LED_BUILTIN
-  #define LED_BUILTIN       2
+#define LED_BUILTIN       2
 #endif
 
 #ifndef LED_BLUE
-  #define LED_BLUE          25
+#define LED_BLUE          25
 #endif
 
 #ifndef LED_RED
-  #define LED_RED           27
+#define LED_RED           27
 #endif
 
 #define HW_TIMER_INTERVAL_US      10000L
@@ -82,7 +82,7 @@ ESP32_ISR_Timer ISR_Timer;
 // and you can't use float calculation inside ISR
 // Only OK in core v1.0.6-
 bool IRAM_ATTR TimerHandler(void * timerNo)
-{ 
+{
   static bool toggle  = false;
   static int timeRun  = 0;
 

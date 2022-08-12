@@ -1,14 +1,14 @@
 
 /****************************************************************************************************************************
   ESP32_New_TimerInterrupt.h
-  For ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+  For ESP32, ESP32_S2, ESP32_S3, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   Written by Khoi Hoang
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP32_New_TimerInterrupt
   Licensed under MIT license
 
-  The ESP32, ESP32_S2, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
-  1) each group of ESP32, ESP32_S2 has two general purpose hardware timers, TIMER_0 and TIMER_1
+  The ESP32, ESP32_S2, ESP32_S3, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
+  1) each group of ESP32, ESP32_S2, ESP32_S3 has two general purpose hardware timers, TIMER_0 and TIMER_1
   2) each group of ESP32_C3 has ony one general purpose hardware timer, TIMER_0
   
   All the timers are based on 64 bits counters and 16 bit prescalers. The timer counters can be configured to count up or down 
@@ -28,7 +28,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.3.0
+  Version: 1.4.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.2.0   K Hoang      12/02/2022 Add support to new ESP32-S3
   1.2.1   K Hoang      16/06/2022 Add support to new Adafruit boards
   1.3.0   K Hoang      03/08/2022 Suppress errors and warnings for new ESP32 core
+  1.4.0   K Hoang      11/08/2022 Add support and suppress warnings for ESP32_C3, ESP32_S2 and ESP32_S3 boards
 *****************************************************************************************************************************/
 
 #pragma once
@@ -47,28 +48,50 @@
 
 #if ( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
       ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
-      ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM || ARDUINO_ADAFRUIT_QTPY_ESP32S2)
+      ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM || ARDUINO_ADAFRUIT_QTPY_ESP32S2 || ARDUINO_ESP32S2_USB || \
+      ARDUINO_FEATHERS2NEO || ARDUINO_TINYS2 || ARDUINO_RMP || ARDUINO_LOLIN_S2_MINI || ARDUINO_LOLIN_S2_PICO || \
+      ARDUINO_ADAFRUIT_FEATHER_ESP32S2 || ARDUINO_ADAFRUIT_FEATHER_ESP32S2_TFT  || ARDUINO_atmegazero_esp32s2 || \
+      ARDUINO_DYM || ARDUINO_FRANZININHO_WIFI  || ARDUINO_FRANZININHO_WIFI_MSC )
   #define USING_ESP32_S2_NEW_TIMERINTERRUPT         true
+  
+  #if (_TIMERINTERRUPT_LOGLEVEL_ > 3)
+    #warning USING_ESP32_S2_NEW_TIMERINTERRUPT
+  #endif
 #elif ( defined(ARDUINO_ESP32S3_DEV) || defined(ARDUINO_ESP32_S3_BOX) || defined(ARDUINO_TINYS3) || \
         defined(ARDUINO_PROS3) || defined(ARDUINO_FEATHERS3) || defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3_NOPSRAM) || \
-        defined(ARDUINO_ADAFRUIT_QTPY_ESP32S3_NOPSRAM))
+        defined(ARDUINO_ADAFRUIT_QTPY_ESP32S3_NOPSRAM) || defined(ARDUINO_ESP32S3_CAM_LCD) || \
+        defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3) || defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3_TFT) || \
+        defined(ARDUINO_ESP32_S3_USB_OTG) )
   #define USING_ESP32_S3_NEW_TIMERINTERRUPT         true
-#elif ( ARDUINO_ESP32C3_DEV )
-  #define USING_ESP32_C3_NEW_TIMERINTERRUPT         true  
+  
+  #if (_TIMERINTERRUPT_LOGLEVEL_ > 3)
+    #warning USING_ESP32_S3_NEW_TIMERINTERRUPT
+  #endif
+#elif ( defined(ARDUINO_ESP32C3_DEV) || defined(ARDUINO_LOLIN_C3_MINI) || defined(ARDUINO_ADAFRUIT_QTPY_ESP32C3) || \
+        defined(ARDUINO_AirM2M_CORE_ESP32C3) || defined(ARDUINO_XIAO_ESP32C3) )
+  #define USING_ESP32_C3_NEW_TIMERINTERRUPT         true
+  
+  #if (_TIMERINTERRUPT_LOGLEVEL_ > 3)
+    #warning USING_ESP32_C3_NEW_TIMERINTERRUPT
+  #endif
 #elif defined(ESP32)
-  #define USING_ESP32_NEW_TIMERINTERRUPT            true  
+  #define USING_ESP32_NEW_TIMERINTERRUPT            true 
+  
+  #if (_TIMERINTERRUPT_LOGLEVEL_ > 3)
+    #warning USING_ESP32_NEW_TIMERINTERRUPT
+  #endif 
 #else
   #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.  
 #endif
 
 #ifndef ESP32_NEW_TIMERINTERRUPT_VERSION
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.3.0"
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.4.0"
   
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_MAJOR     1
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     3
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     4
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_PATCH     0
 
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1003000
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1004000
 #endif
 
 #ifndef TIMER_INTERRUPT_DEBUG
@@ -216,7 +239,7 @@ typedef ESP32TimerInterrupt ESP32Timer;
 typedef bool (*esp32_timer_callback)  (void *);
 
 // For ESP32_C3, TIMER_MAX == 1
-// For ESP32 and ESP32_S2, TIMER_MAX == 2
+// For ESP32, ESP32_S2 and ESP32_S3, TIMER_MAX == 2
 
 typedef struct
 {
@@ -236,8 +259,11 @@ class ESP32TimerInterrupt
       .counter_en   = TIMER_START,          //starts counting counter once timer_init called
       .intr_type    = TIMER_INTR_MAX,
       .counter_dir  = TIMER_COUNT_UP,       //counts from 0 to counter value
-      .auto_reload  = TIMER_AUTORELOAD_EN,  // reloads counter automatically
-      .divider      = TIMER_DIVIDER
+      .auto_reload  = TIMER_AUTORELOAD_EN,  //reloads counter automatically
+      .divider      = TIMER_DIVIDER,
+#if SOC_TIMER_GROUP_SUPPORT_XTAL
+      .clk_src      = TIMER_SRC_CLK_XTAL    //Use XTAL as source clock
+#endif      
     };
 
     timer_idx_t       _timerIndex;

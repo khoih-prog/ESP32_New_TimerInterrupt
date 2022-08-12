@@ -1,13 +1,13 @@
 /****************************************************************************************************************************
   ISR_16_Timers_Array.ino
-  For ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+  For ESP32, ESP32_S2, ESP32_S3, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   Written by Khoi Hoang
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP32_New_TimerInterrupt
   Licensed under MIT license
 
-  The ESP32, ESP32_S2, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
-  1) each group of ESP32, ESP32_S2 has two general purpose hardware timers, TIMER_0 and TIMER_1
+  The ESP32, ESP32_S2, ESP32_S3, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
+  1) each group of ESP32, ESP32_S2, ESP32_S3 has two general purpose hardware timers, TIMER_0 and TIMER_1
   2) each group of ESP32_C3 has ony one general purpose hardware timer, TIMER_0
   
   All the timers are based on 64 bits counters and 16 bit prescalers. The timer counters can be configured to count up or down 
@@ -53,7 +53,7 @@
   #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
 #endif
 
-// These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
+// These define's must be placed at the beginning before #include "ESP32_New_TimerInterrupt.h"
 #define _TIMERINTERRUPT_LOGLEVEL_     0
 
 #include "ESP32_New_TimerInterrupt.h"

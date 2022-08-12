@@ -1,13 +1,13 @@
 /****************************************************************************************************************************
   ESP32_New_ISR_Timer.h
-  For ESP32, ESP32_S2, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
+  For ESP32, ESP32_S2, ESP32_S3, ESP32_C3 boards with ESP32 core v2.0.0-rc1+
   Written by Khoi Hoang
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP32_New_TimerInterrupt
   Licensed under MIT license
 
-  The ESP32, ESP32_S2, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
-  1) each group of ESP32, ESP32_S2 has two general purpose hardware timers, TIMER_0 and TIMER_1
+  The ESP32, ESP32_S2, ESP32_S3, ESP32_C3 have two timer groups, TIMER_GROUP_0 and TIMER_GROUP_1
+  1) each group of ESP32, ESP32_S2, ESP32_S3 has two general purpose hardware timers, TIMER_0 and TIMER_1
   2) each group of ESP32_C3 has ony one general purpose hardware timer, TIMER_0
   
   All the timers are based on 64 bits counters and 16 bit prescalers. The timer counters can be configured to count up or down 
@@ -27,7 +27,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.3.0
+  Version: 1.4.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -37,6 +37,7 @@
   1.2.0   K Hoang      12/02/2022 Add support to new ESP32-S3
   1.2.1   K Hoang      16/06/2022 Add support to new Adafruit boards
   1.3.0   K Hoang      03/08/2022 Suppress errors and warnings for new ESP32 core
+  1.4.0   K Hoang      11/08/2022 Add support and suppress warnings for ESP32_C3, ESP32_S2 and ESP32_S3 boards
 *****************************************************************************************************************************/
 
 #pragma once
