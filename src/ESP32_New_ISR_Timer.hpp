@@ -27,7 +27,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.4.0
+  Version: 1.5.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.2.1   K Hoang      16/06/2022 Add support to new Adafruit boards
   1.3.0   K Hoang      03/08/2022 Suppress errors and warnings for new ESP32 core
   1.4.0   K Hoang      11/08/2022 Add support and suppress warnings for ESP32_C3, ESP32_S2 and ESP32_S3 boards
+  1.5.0   K Hoang      16/11/2022 Fix doubled time for ESP32_C3, ESP32_S2 and ESP32_S3
 *****************************************************************************************************************************/
 
 #pragma once
@@ -50,13 +51,13 @@
 #endif
 
 #ifndef ESP32_NEW_TIMERINTERRUPT_VERSION
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.4.0"
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION          "ESP32_New_TimerInterrupt v1.5.0"
   
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_MAJOR     1
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     4
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_MINOR     5
   #define ESP32_NEW_TIMERINTERRUPT_VERSION_PATCH     0
 
-  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1004000
+  #define ESP32_NEW_TIMERINTERRUPT_VERSION_INT      1005000
 #endif
 
 #include "TimerInterrupt_Generic_Debug.h"
