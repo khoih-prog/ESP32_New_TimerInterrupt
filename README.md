@@ -280,7 +280,7 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 
 ### Example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
 
-https://github.com/khoih-prog/ESP32_New_TimerInterrupt/blob/bf13ce54803b1f2cdc22649e711141d2f1cac45f/examples/ISR_16_Timers_Array_Complex/ISR_16_Timers_Array_Complex.ino#L43-L369
+https://github.com/khoih-prog/ESP32_New_TimerInterrupt/blob/eb11f04967974c3b19e9c0f7b7ba078af49526c9/examples/ISR_16_Timers_Array_Complex/ISR_16_Timers_Array_Complex.ino#L43-L383
 
 ---
 ---
